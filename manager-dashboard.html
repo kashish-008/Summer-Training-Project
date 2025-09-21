@@ -1,0 +1,301 @@
+<!-- File: manager-dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manager Dashboard - EMS Pro</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .profile-img-box {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .profile-img-box img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .task-actions {
+        margin-top: 10px;
+      }
+      .task-actions button {
+        margin-right: 10px;
+      }
+      .task-card {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .task-card h4 {
+        margin-top: 0;
+        color: var(--primary-color);
+      }
+      .task-card p {
+        margin: 5px 0;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="EMS Logo" />
+          <span>EMS Pro</span>
+        </a>
+        <nav class="nav">
+          <ul>
+            <li><a href="#" class="active">Dashboard</a></li>
+            <!-- <li><a href="features.html">Features</a></li> -->
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          <a href="index.html"
+            ><button class="btn btn-login" onclick="logout()">Logout</button></a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <section class="features-section section-fade">
+        <div class="container">
+          <h1 class="section-title fade-in" id="greetingText">Welcome</h1>
+          <p class="section-subtitle slide-up">
+            Monitor team progress and oversee active tasks
+          </p>
+
+          <!-- Manager Info -->
+          <div
+            class="feature-card lift-on-hover"
+            style="max-width: 700px; margin: 0 auto 30px auto"
+          >
+            <div class="profile-img-box">
+              <img src="images/logo.png" alt="Manager Photo" />
+            </div>
+            <h3>Manager Information</h3>
+            <p><strong>Name:</strong> <span id="mgrName"></span></p>
+            <p><strong>Manager ID:</strong> <span id="mgrID"></span></p>
+            <p><strong>Role:</strong> Manager</p>
+          </div>
+
+          <!-- Task Overview -->
+          <div class="features-grid" style="margin-bottom: 30px">
+            <div class="feature-card lift-on-hover">
+              <h3>Total Tasks</h3>
+              <p class="stat-item" id="totalTasks">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Active</h3>
+              <p class="stat-item" id="activeCount">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Completed</h3>
+              <p class="stat-item" id="completedCount">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Failed</h3>
+              <p class="stat-item" id="failedCount">0</p>
+            </div>
+          </div>
+
+          <!-- Task List -->
+          <div class="feature-card" style="margin-top: 40px">
+            <h3>Assigned Tasks</h3>
+            <ul
+              id="taskList"
+              class="task-list"
+              style="padding-left: 0; margin-top: 20px"
+            ></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>EMS Pro</h3>
+            <p>
+              Modern Employee Management Solution for businesses of all sizes.
+              Streamline your HR processes with our powerful tools.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="features.html">Features</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="login.html">Login</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Features</h3>
+            <ul>
+              <li>Employee Database</li>
+              <li>Attendance Tracking</li>
+              <li>Payroll Management</li>
+              <li>Performance Reviews</li>
+              <li>Task Management</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Contact Us</h3>
+            <ul class="contact-info">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 123 Business St, City,
+                Country
+              </li>
+              <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+              <li><i class="fas fa-envelope"></i> info@emspro.com</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 EMS Pro. All Rights Reserved. | College Project by
+            Kashish Thakur
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- 🌗 Theme Toggle Button -->
+    <button id="themeToggleBtn" class="theme-toggle-icon" title="Toggle Theme">
+      <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+    <script src="js/auth.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const user = initDashboard("manager");
+        if (!user) return;
+
+        // Load team tasks
+        const allTasks = tasks.getAll();
+        const taskList = document.getElementById("taskList");
+
+        allTasks.forEach((task) => {
+          const taskItem = document.createElement("li");
+          taskItem.className = "task-card";
+          taskItem.innerHTML = `
+      <h4>${task.title}</h4>
+      <p><strong>Assigned To:</strong> ${task.assignedTo}</p>
+      <p><strong>Status:</strong> ${task.status}</p>
+      <div class="task-actions">
+        <select class="status-select" data-id="${task.id}">
+          <option value="pending" ${
+            task.status === "pending" ? "selected" : ""
+          }>Pending</option>
+          <option value="completed" ${
+            task.status === "completed" ? "selected" : ""
+          }>Completed</option>
+        </select>
+      </div>
+    `;
+          taskList.appendChild(taskItem);
+        });
+
+        // Status updates
+        taskList.addEventListener("change", function (e) {
+          if (e.target.classList.contains("status-select")) {
+            const taskId = parseInt(e.target.dataset.id);
+            const newStatus = e.target.value;
+            tasks.update(taskId, { status: newStatus });
+          }
+        });
+      });
+
+      // Display Manager Information (NEW CODE)
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get current user from session
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+
+        if (currentUser && currentUser.role === "manager") {
+          // Display manager info
+          document.getElementById("mgrName").textContent =
+            currentUser.name || "Manager";
+          document.getElementById("mgrID").textContent = currentUser.email
+            ? currentUser.email.split("@")[0]
+            : "MGR001";
+
+          // Update greeting
+          const greetingText = document.getElementById("greetingText");
+          if (greetingText && currentUser.name) {
+            greetingText.textContent = `Welcome, ${currentUser.name}`;
+          }
+
+          // Set manager photo if available
+          const mgrPhoto = document.querySelector(".profile-img-box img");
+          if (mgrPhoto && currentUser.photo) {
+            mgrPhoto.src = currentUser.photo;
+          }
+        }
+      });
+
+      // Simple Task Display for Manager Dashboard
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load tasks from localStorage (same storage admin uses)
+        const savedTasks = JSON.parse(localStorage.getItem("emsTasks")) || [];
+        const taskList = document.getElementById("taskList");
+
+        // Simple render function (same as admin dashboard)
+        function renderTask(task) {
+          const taskItem = document.createElement("li");
+          taskItem.className = "task-card";
+          taskItem.innerHTML = `
+            <h4>${task.name || task.title}</h4>
+            <p><strong>Assigned To:</strong> ${
+              task.employee || task.assignedTo
+            }</p>
+            <p><strong>Status:</strong> ${task.status}</p>
+            <p><strong>Technology:</strong> ${task.tech || task.technology}</p>
+            <p><strong>Deadline:</strong> ${task.time || task.timeline}</p>
+        `;
+          taskList.appendChild(taskItem);
+        }
+
+        // Display all tasks
+        taskList.innerHTML = "";
+        savedTasks.forEach(renderTask);
+
+        // Update stats (if elements exist)
+        if (document.getElementById("totalTasks")) {
+          document.getElementById("totalTasks").textContent = savedTasks.length;
+          document.getElementById("activeCount").textContent =
+            savedTasks.filter((t) => t.status === "active").length;
+          document.getElementById("completedCount").textContent =
+            savedTasks.filter((t) => t.status === "completed").length;
+          document.getElementById("failedCount").textContent =
+            savedTasks.filter((t) => t.status === "failed").length;
+        }
+      });
+    </script>
+
+    <script src="js/animations.js"></script>
+    <script src="js/theme.js"></script>
+  </body>
+</html>

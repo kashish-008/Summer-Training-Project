@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Employee Management System</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="Company Logo" />
+          <span>EMS Pro</span>
+        </a>
+        <nav class="nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          <a href="login.html" class="btn btn-login">Login</a>
+          <a href="login.html?register=true" class="btn btn-primary"
+            >Register</a
+          >
+        </div>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <section class="features-section section-fade">
+        <div class="container">
+          <h1 class="section-title fade-in">Contact Us</h1>
+          <p class="section-subtitle slide-up">
+            We'd love to hear from you. Send us a message and we'll get back
+            shortly.
+          </p>
+
+          <div class="features-grid">
+            <div class="feature-card lift-on-hover">
+              <h3>Get in Touch</h3>
+              <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                  <label for="name">Your Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Your Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="john@example.com"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="message">Your Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    placeholder="Write your message here..."
+                    required
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="margin-top: 10px"
+                >
+                  Send Message
+                </button>
+                <div id="formMessage" style="margin-top: 15px"></div>
+              </form>
+            </div>
+
+            <div class="feature-card lift-on-hover">
+              <h3>Contact Information</h3>
+              <ul class="contact-info">
+                <li>
+                  <i class="fas fa-map-marker-alt"></i> 123 Business Street,
+                  City, Country
+                </li>
+                <li><i class="fas fa-envelope"></i> info@emspro.com</li>
+                <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                <li><i class="fas fa-globe"></i> www.emspro.com</li>
+              </ul>
+              <p
+                style="
+                  margin-top: 15px;
+                  color: var(--text-light);
+                  font-size: 0.95rem;
+                "
+              >
+                Our support team is available 24/7 to assist you.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>EMS Pro</h3>
+            <p>
+              Modern Employee Management Solution for businesses of all sizes.
+              Streamline your HR processes with our powerful tools.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="features.html">Features</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="login.html">Login</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Features</h3>
+            <ul>
+              <li>Employee Database</li>
+              <li>Attendance Tracking</li>
+              <li>Payroll Management</li>
+              <li>Performance Reviews</li>
+              <li>Task Management</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Contact Us</h3>
+            <ul class="contact-info">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 123 Business St, City,
+                Country
+              </li>
+              <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+              <li><i class="fas fa-envelope"></i> info@emspro.com</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 EMS Pro. All Rights Reserved. | College Project by
+            Kashish Thakur
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- 🌗 Theme Toggle Button -->
+    <button id="themeToggleBtn" class="theme-toggle-icon" title="Toggle Theme">
+      <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+    <script>
+      // Initialize contacts array in localStorage if it doesn't exist
+      if (!localStorage.getItem("emsContacts")) {
+        localStorage.setItem("emsContacts", JSON.stringify([]));
+      }
+
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const form = e.target;
+          const name = form.name.value.trim();
+          const email = form.email.value.trim();
+          const message = form.message.value.trim();
+          const messageDiv = document.getElementById("formMessage");
+          const submitBtn = form.querySelector('button[type="submit"]');
+
+          // Basic validation
+          if (!name || !email || !message) {
+            showMessage("Please fill all fields", "red");
+            return;
+          }
+
+          if (!validateEmail(email)) {
+            showMessage("Please enter a valid email", "red");
+            return;
+          }
+
+          // Disable button during processing
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending...";
+
+          // Get existing contacts
+          const contacts = JSON.parse(localStorage.getItem("emsContacts"));
+
+          // Create new contact
+          const newContact = {
+            id: Date.now(), // Simple unique ID
+            name,
+            email,
+            message,
+            date: new Date().toISOString(),
+          };
+
+          // Save to localStorage
+          contacts.push(newContact);
+          localStorage.setItem("emsContacts", JSON.stringify(contacts));
+
+          // Show success message
+          showMessage(
+            "Message sent successfully! We'll get back to you soon.",
+            "green"
+          );
+          form.reset();
+
+          // Re-enable button
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send Message";
+          }, 2000);
+        });
+
+      // Helper functions
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      function showMessage(text, color) {
+        const messageDiv = document.getElementById("formMessage");
+        messageDiv.textContent = text;
+        messageDiv.style.color = color;
+
+        // Clear message after 5 seconds
+        if (color === "green") {
+          setTimeout(() => {
+            messageDiv.textContent = "";
+          }, 5000);
+        }
+      }
+
+      // In your contact form submission handler:
+      const newContact = {
+        id: Date.now(),
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim(),
+        date: new Date().toISOString(), // Make sure this is included
+      };
+    </script>
+
+    <script src="js/animations.js"></script>
+    <script src="js/theme.js"></script>
+  </body>
+</html>

@@ -1,0 +1,270 @@
+<!-- File: employee-dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Dashboard - EMS Pro</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="EMS Logo" />
+          <span>EMS Pro</span>
+        </a>
+        <nav class="nav">
+          <ul>
+            <li><a href="#" class="active">Dashboard</a></li>
+            <!-- <li><a href="features.html">Features</a></li> -->
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          <a href="index.html"
+            ><button class="btn btn-login" onclick="logout()">Logout</button></a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <section class="features-section section-fade">
+        <div class="container">
+          <h1 class="section-title fade-in" id="greetingText">
+            Welcome Employee
+          </h1>
+          <p class="section-subtitle slide-up">
+            View your assigned tasks and track their status
+          </p>
+
+          <!-- Employee Profile Info -->
+          <div
+            class="feature-card lift-on-hover"
+            style="max-width: 700px; margin: 0 auto 30px auto"
+          >
+            <h3>Employee Information</h3>
+            <div class="profile-img-box">
+              <img src="images/logo.png" alt="Employee Photo" id="empPhoto" />
+            </div>
+            <p><strong>Name:</strong> <span id="empName"></span></p>
+            <p><strong>Employee ID:</strong> <span id="empID"></span></p>
+            <p><strong>Role:</strong> <span id="empRole"></span></p>
+          </div>
+
+          <!-- Employee Stats -->
+          <div class="features-grid" style="margin-bottom: 30px">
+            <div class="feature-card lift-on-hover">
+              <h3>Total Assigned Tasks</h3>
+              <p class="stat-item" id="totalTasks">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Active</h3>
+              <p class="stat-item" id="activeCount">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Completed</h3>
+              <p class="stat-item" id="completedCount">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Failed</h3>
+              <p class="stat-item" id="failedCount">0</p>
+            </div>
+          </div>
+
+          <!-- Task List -->
+          <!-- <div class="feature-card" style="margin-top: 40px">
+            <h3>Your Tasks</h3>
+            <div id="employeeTaskList">
+              <ul
+                id="employeeTaskList"
+                class="task-list"
+                style="padding-left: 0; margin-top: 20px"
+              ></ul>
+            </div>
+          </div> -->
+
+          <!-- Task List -->
+          <div class="feature-card" style="margin-top: 40px">
+            <h3>Assigned Tasks</h3>
+            <ul
+              id="taskList"
+              class="task-list"
+              style="padding-left: 0; margin-top: 20px"
+            ></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>EMS Pro</h3>
+            <p>
+              Modern Employee Management Solution for businesses of all sizes.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="features.html">Features</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Contact Us</h3>
+            <ul class="contact-info">
+              <li><i class="fas fa-envelope"></i> info@emspro.com</li>
+              <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 EMS Pro. All Rights Reserved. | College Project by
+            Kashish Thakur
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- 🌗 Theme Toggle Button -->
+    <button id="themeToggleBtn" class="theme-toggle-icon" title="Toggle Theme">
+      <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+    <script src="js/auth.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const user = initDashboard("employee");
+        if (!user) return;
+
+        // Load employee tasks
+        const employeeTasks = tasks.getByUser(user.id);
+        const taskList = document.getElementById("employeeTaskList");
+
+        employeeTasks.forEach((task) => {
+          const taskItem = document.createElement("li");
+          taskItem.className = "task-card";
+          taskItem.innerHTML = `
+      <h4>${task.title}</h4>
+      <p><strong>Status:</strong> ${task.status}</p>
+      <p><strong>Deadline:</strong> ${task.deadline}</p>
+      <p>${task.description}</p>
+      ${
+        task.status === "pending"
+          ? `<button class="btn btn-complete" data-id="${task.id}">Mark Complete</button>`
+          : ""
+      }
+    `;
+          taskList.appendChild(taskItem);
+        });
+
+        // Task completion
+        taskList.addEventListener("click", function (e) {
+          if (e.target.classList.contains("btn-complete")) {
+            const taskId = parseInt(e.target.dataset.id);
+            tasks.update(taskId, { status: "completed" });
+            e.target.parentElement.querySelector("p:nth-child(2)").textContent =
+              "Status: completed";
+            e.target.remove();
+          }
+        });
+      });
+
+      // Display Employee Information (NEW CODE)
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get current user from session
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+
+        if (currentUser && currentUser.role === "employee") {
+          // Display employee info
+          document.getElementById("empName").textContent =
+            currentUser.name || "Employee";
+          document.getElementById("empID").textContent = currentUser.email
+            ? currentUser.email.split("@")[0]
+            : "EMP001";
+          document.getElementById("empRole").textContent = "Employee";
+
+          // Update greeting
+          const greetingText = document.getElementById("greetingText");
+          if (greetingText && currentUser.name) {
+            greetingText.textContent = `Welcome, ${currentUser.name}`;
+          }
+
+          // Set employee photo if available
+          const empPhoto = document.getElementById("empPhoto");
+          if (empPhoto && currentUser.photo) {
+            empPhoto.src = currentUser.photo;
+          }
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+        if (!currentUser || currentUser.role !== "employee") return;
+
+        const taskContainer = document.getElementById("employeeTaskList");
+        if (!taskContainer) return;
+
+        const sharedTasks =
+          JSON.parse(localStorage.getItem("emsSharedTasks")) || [];
+        const employeeTasks = sharedTasks.filter(
+          (task) =>
+            task.employee.toLowerCase() === currentUser.name.toLowerCase()
+        );
+
+        if (employeeTasks.length === 0) {
+          taskContainer.innerHTML = "<p>No tasks assigned to you yet.</p>";
+          return;
+        }
+
+        taskContainer.innerHTML = "";
+        employeeTasks.forEach((task) => {
+          const card = document.createElement("div");
+          card.className = "task-card";
+          card.innerHTML = `
+      <h3>${task.name}</h3>
+      <p><strong>Technology:</strong> ${task.tech}</p>
+      <p><strong>Timeline:</strong> ${task.time}</p>
+      <p><strong>Description:</strong> ${task.description}</p>
+      <p><strong>Status:</strong> ${task.status}</p>
+      ${
+        task.status === "active" || task.status === "pending"
+          ? `
+        <button onclick="updateEmployeeTaskStatus(${task.id}, 'completed')">Mark as Completed</button>
+        <button onclick="updateEmployeeTaskStatus(${task.id}, 'failed')">Mark as Failed</button>
+      `
+          : `<p><strong>Final Status:</strong> ${task.status}</p>`
+      }
+    `;
+          taskContainer.appendChild(card);
+        });
+      });
+
+      function updateEmployeeTaskStatus(taskId, newStatus) {
+        const tasks = JSON.parse(localStorage.getItem("emsSharedTasks")) || [];
+        const index = tasks.findIndex((task) => task.id === taskId);
+        if (index !== -1) {
+          tasks[index].status = newStatus;
+          localStorage.setItem("emsSharedTasks", JSON.stringify(tasks));
+          location.reload(); // Refresh to show updated status
+        }
+      }
+    </script>
+    <script src="js/animations.js"></script>
+    <script src="js/theme.js"></script>
+  </body>
+</html>

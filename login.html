@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - EMS Pro</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="Company Logo" />
+          <span>EMS Pro</span>
+        </a>
+        <nav class="nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <section class="features-section section-fade">
+        <div class="container">
+          <h1 class="section-title fade-in">Welcome Back</h1>
+          <p class="section-subtitle slide-up">
+            Select your role and login securely
+          </p>
+
+          <div
+            class="feature-card lift-on-hover"
+            style="max-width: 600px; margin: auto"
+          >
+            <form class="contact-form" id="loginForm">
+              <div class="form-group">
+                <label for="role">Login As</label>
+                <select id="role" name="role" class="form-select" required>
+                  <option value="">-- Select Role --</option>
+                  <option value="admin">Admin</option>
+                  <option value="manager">Manager</option>
+                  <option value="employee">Employee</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="username">Username or Email</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Your Email or ID"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter Password"
+                  required
+                />
+              </div>
+
+              <div class="form-group" id="roleCodeField" style="display: none">
+                <label id="roleCodeLabel" for="roleCodeInput">Code / ID</label>
+                <input
+                  type="text"
+                  id="roleCodeInput"
+                  name="roleCodeInput"
+                  placeholder=""
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style="margin-top: 10px"
+              >
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>EMS Pro</h3>
+            <p>
+              Modern Employee Management Solution for businesses of all sizes.
+              Streamline your HR processes with our powerful tools.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="features.html">Features</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="login.html">Login</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Features</h3>
+            <ul>
+              <li>Employee Database</li>
+              <li>Attendance Tracking</li>
+              <li>Payroll Management</li>
+              <li>Performance Reviews</li>
+              <li>Task Management</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Contact Us</h3>
+            <ul class="contact-info">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 123 Business St, City,
+                Country
+              </li>
+              <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+              <li><i class="fas fa-envelope"></i> info@emspro.com</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 EMS Pro. All Rights Reserved. | College Project by
+            Kashish Thakur
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- 🌗 Theme Toggle Button -->
+    <button id="themeToggleBtn" class="theme-toggle-icon" title="Toggle Theme">
+      <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+    <script src="js/auth.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const roleSelect = document.getElementById("role");
+        const codeField = document.getElementById("roleCodeField");
+        const codeInput = document.getElementById("roleCodeInput");
+        const codeLabel = document.getElementById("roleCodeLabel");
+        const form = document.getElementById("loginForm");
+
+        roleSelect.addEventListener("change", function () {
+          const role = this.value;
+          if (role === "admin") {
+            codeLabel.textContent = "Admin Access Code";
+            codeInput.placeholder = "Enter Admin Code";
+            codeInput.required = true;
+            codeField.style.display = "block";
+          } else if (role === "manager") {
+            codeLabel.textContent = "Manager Code";
+            codeInput.placeholder = "Enter Manager Code";
+            codeInput.required = true;
+            codeField.style.display = "block";
+          } else {
+            codeField.style.display = "none";
+          }
+        });
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const role = roleSelect.value;
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const code = codeInput.value.trim();
+
+          // Validate admin/manager codes
+          if (
+            (role === "admin" && code !== AUTH_CODES.admin) ||
+            (role === "manager" && code !== AUTH_CODES.manager)
+          ) {
+            alert("Invalid access code");
+            return;
+          }
+
+          const user = authenticate(username, password, role);
+          if (user) {
+            session.set(user);
+            window.location.href = `${user.role}-dashboard.html`;
+          } else {
+            alert("Invalid credentials");
+          }
+        });
+      });
+    </script>
+
+    <script src="js/animations.js"></script>
+    <script src="js/theme.js"></script>
+  </body>
+</html>

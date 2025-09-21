@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - EMS Pro</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .profile-img-box {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .profile-img-box img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      } /* Additional styles for tasks */
+      .task-card {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+      }
+
+      .task-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .task-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .task-status {
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .task-status.active {
+        background: #e3f2fd;
+        color: #1976d2;
+      }
+
+      .task-status.completed {
+        background: #e8f5e9;
+        color: #388e3c;
+      }
+
+      .task-status.failed {
+        background: #ffebee;
+        color: #d32f2f;
+      }
+
+      .task-details p {
+        margin: 5px 0;
+        color: #555;
+      }
+
+      .task-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .no-tasks {
+        text-align: center;
+        color: #777;
+        padding: 20px;
+      }
+
+      .toast-message {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #333;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .toast-message.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="EMS Logo" />
+          <span>EMS Pro</span>
+        </a>
+        <nav class="nav">
+          <ul>
+            <li><a href="#" class="active">Dashboard</a></li>
+            <!-- <li><a href="features.html">Features</a></li> -->
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          <a href="index.html"
+            ><button class="btn btn-login" onclick="logout()">Logout</button></a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="main">
+      <section class="features-section section-fade">
+        <div class="container">
+          <h1 class="section-title fade-in" id="greetingText">Welcome Admin</h1>
+          <p class="section-subtitle slide-up">
+            Manage employees and tasks efficiently from your dashboard
+          </p>
+
+          <!-- Admin Profile Info -->
+          <div
+            class="feature-card lift-on-hover"
+            style="max-width: 700px; margin: 0 auto 30px auto"
+          >
+            <div class="profile-img-box">
+              <img src="images/logo.png" alt="Admin Photo" id="adminPhoto" />
+            </div>
+            <h3>Admin Information</h3>
+            <p><strong>Name:</strong> <span id="adminName"></span></p>
+            <p><strong>Admin ID:</strong> <span id="adminID"></span></p>
+            <p><strong>Role:</strong> <span id="adminRole"></span></p>
+          </div>
+
+          <!-- Admin Stats -->
+          <div class="features-grid" style="margin-bottom: 30px">
+            <!-- <div class="feature-card lift-on-hover">
+              <h3>Total Employees</h3>
+              <p class="stat-item" id="totalEmployees">0</p>
+            </div> -->
+            <div class="feature-card lift-on-hover">
+              <h3>Active Tasks</h3>
+              <p class="stat-item" id="activeTasks">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Completed Tasks</h3>
+              <p class="stat-item" id="completedTasks">0</p>
+            </div>
+            <div class="feature-card lift-on-hover">
+              <h3>Failed Tasks</h3>
+              <p class="stat-item" id="failedTasks">0</p>
+            </div>
+          </div>
+
+          <!-- Task Assignment Form -->
+          <div
+            class="feature-card lift-on-hover"
+            style="max-width: 700px; margin: 30px auto"
+          >
+            <h3>Assign New Task</h3>
+            <form class="contact-form" id="taskForm">
+              <div class="form-group">
+                <label for="taskName">Task Name</label>
+                <input type="text" id="taskName" name="taskName" required />
+              </div>
+              <div class="form-group">
+                <label for="employeeName">Assign To (Employee Name)</label>
+                <input
+                  type="text"
+                  id="employeeName"
+                  name="employeeName"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="technology">Technology</label>
+                <input type="text" id="technology" name="technology" required />
+              </div>
+              <div class="form-group">
+                <label for="timeline">Timeline</label>
+                <input
+                  type="text"
+                  id="timeline"
+                  name="timeline"
+                  placeholder="e.g., 2 Days or 15 July 2025"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="description">Task Description</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" class="form-select" required>
+                  <option value="active">Active</option>
+                  <option value="completed">Completed</option>
+                  <option value="failed">Failed</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Assign Task</button>
+            </form>
+          </div>
+
+          <!-- Task List -->
+          <div class="feature-card" style="margin-top: 40px">
+            <h3>Assigned Tasks</h3>
+            <ul
+              id="taskList"
+              class="task-list"
+              style="padding-left: 0; margin-top: 20px"
+            ></ul>
+          </div>
+          <!-- Add this to your admin-dashboard.html -->
+          <div class="feature-card">
+            <h3>Contact Submissions</h3>
+            <div class="table-responsive">
+              <table id="contactsTable" class="contacts-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="table-actions">
+              <button id="refreshContacts" class="btn btn-primary">
+                Refresh
+              </button>
+              <button id="exportContacts" class="btn btn-secondary">
+                Export CSV
+              </button>
+              <button id="clearContacts" class="btn btn-login">
+                Clear All
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>EMS Pro</h3>
+            <p>
+              Modern Employee Management Solution for businesses of all sizes.
+              Streamline your HR processes with our powerful tools.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="features.html">Features</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="login.html">Login</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Features</h3>
+            <ul>
+              <li>Employee Database</li>
+              <li>Attendance Tracking</li>
+              <li>Payroll Management</li>
+              <li>Performance Reviews</li>
+              <li>Task Management</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Contact Us</h3>
+            <ul class="contact-info">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 123 Business St, City,
+                Country
+              </li>
+              <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+              <li><i class="fas fa-envelope"></i> info@emspro.com</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 EMS Pro. All Rights Reserved. | College Project by
+            Kashish Thakur
+          </p>
+        </div>
+      </div>
+    </footer>
+    <!-- 🌗 Theme Toggle Button -->
+    <button id="themeToggleBtn" class="theme-toggle-icon" title="Toggle Theme">
+      <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+    <script src="js/auth.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const user = initDashboard("admin");
+        if (!user) return;
+
+        // Task management
+        const taskForm = document.getElementById("taskForm");
+        const taskList = document.getElementById("taskList");
+
+        taskForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const taskData = {
+            title: document.getElementById("taskName").value.trim(),
+            assignedTo: document.getElementById("employeeName").value.trim(),
+            tech: document.getElementById("technology").value.trim(),
+            time: document.getElementById("timeline").value.trim(),
+            description: document.getElementById("description").value.trim(),
+            status: document.getElementById("status").value,
+          };
+
+          if (!taskData.title || !taskData.assignedTo) {
+            alert("Please fill required fields");
+            return;
+          }
+
+          const newTask = tasks.add(taskData);
+          renderTask(newTask);
+          updateStats();
+          taskForm.reset();
+        });
+
+        function renderTask(task) {
+          const taskElement = document.createElement("li");
+          taskElement.className = "task-card";
+          taskElement.innerHTML = `
+      <h4>${task.name}</h4>
+      <p><strong>Assigned To:</strong> ${task.employee}</p>
+      <p><strong>Status:</strong> ${task.status}</p>
+      <button class="btn btn-delete" data-id="${task.id}">Delete</button>
+    `;
+          taskList.appendChild(taskElement);
+        }
+
+        function updateStats() {
+          const allTasks = tasks.getAll();
+          document.getElementById("totalTasks").textContent = allTasks.length;
+          document.getElementById("activeCount").textContent = allTasks.filter(
+            (t) => t.status === "active"
+          ).length;
+          document.getElementById("completedCount").textContent =
+            allTasks.filter((t) => t.status === "completed").length;
+        }
+
+        // Load existing tasks
+        tasks.getAll().forEach(renderTask);
+        updateStats();
+      });
+
+      // Contact Management Functions
+      function loadContactSubmissions() {
+        const contacts = JSON.parse(localStorage.getItem("emsContacts")) || [];
+        const tbody = document.querySelector("#contactsTable tbody");
+        tbody.innerHTML = "";
+
+        if (contacts.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="5" class="text-center">No contact submissions yet</td></tr>';
+          return;
+        }
+
+        // Sort by date (newest first)
+        contacts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        contacts.forEach((contact) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+      <td>${formatDate(contact.date)}</td>
+      <td>${escapeHtml(contact.name)}</td>
+      <td><a href="mailto:${escapeHtml(contact.email)}">${escapeHtml(
+            contact.email
+          )}</a></td>
+      <td>${escapeHtml(contact.message)}</td>
+      <td>
+        <button class="btn btn-sm btn-delete" data-id="${contact.id}">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    `;
+          tbody.appendChild(row);
+        });
+
+        // Add delete button events
+        document.querySelectorAll(".btn-delete").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const contactId = parseInt(this.dataset.id);
+            deleteContact(contactId);
+          });
+        });
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function deleteContact(id) {
+        if (
+          !confirm("Are you sure you want to delete this contact submission?")
+        )
+          return;
+
+        const contacts = JSON.parse(localStorage.getItem("emsContacts")) || [];
+        const filtered = contacts.filter((contact) => contact.id !== id);
+        localStorage.setItem("emsContacts", JSON.stringify(filtered));
+        loadContactSubmissions();
+      }
+
+      function exportToCSV() {
+        const contacts = JSON.parse(localStorage.getItem("emsContacts")) || [];
+        if (contacts.length === 0) {
+          alert("No contacts to export");
+          return;
+        }
+
+        let csv = "Date,Name,Email,Message\n";
+        contacts.forEach((contact) => {
+          csv +=
+            `"${formatDate(contact.date)}","${contact.name.replace(
+              /"/g,
+              '""'
+            )}",` +
+            `"${contact.email}","${contact.message.replace(/"/g, '""')}"\n`;
+        });
+
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `contact_submissions_${
+          new Date().toISOString().split("T")[0]
+        }.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      function clearAllContacts() {
+        if (
+          !confirm("Are you sure you want to delete ALL contact submissions?")
+        )
+          return;
+        localStorage.removeItem("emsContacts");
+        loadContactSubmissions();
+      }
+
+      // Initialize when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load existing contacts
+        loadContactSubmissions();
+
+        // Setup button events
+        document
+          .getElementById("refreshContacts")
+          .addEventListener("click", loadContactSubmissions);
+        document
+          .getElementById("exportContacts")
+          .addEventListener("click", exportToCSV);
+        document
+          .getElementById("clearContacts")
+          .addEventListener("click", clearAllContacts);
+      });
+
+      // Enhanced Task Management Functions
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize tasks if not exists
+        if (!localStorage.getItem("emsTasks")) {
+          localStorage.setItem("emsTasks", JSON.stringify([]));
+        }
+
+        // Enhanced task form submission
+        const taskForm = document.getElementById("taskForm");
+        taskForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const taskData = {
+            id: Date.now(),
+            name: document.getElementById("taskName").value.trim(),
+            employee: document.getElementById("employeeName").value.trim(),
+            tech: document.getElementById("technology").value.trim(),
+            time: document.getElementById("timeline").value.trim(),
+            description: document.getElementById("description").value.trim(),
+            status: document.getElementById("status").value,
+            createdAt: new Date().toISOString(),
+          };
+
+          if (!taskData.name || !taskData.employee) {
+            alert("Please fill required fields");
+            return;
+          }
+
+          // Save to localStorage
+          const tasks = JSON.parse(localStorage.getItem("emsTasks")) || [];
+          tasks.push(taskData);
+          localStorage.setItem("emsTasks", JSON.stringify(tasks));
+
+          // Render the new task
+          renderTask(taskData);
+          updateTaskStats();
+          taskForm.reset();
+
+          showToast("Task assigned successfully!");
+        });
+
+        // Enhanced task rendering
+        function renderTask(task) {
+          const taskList = document.getElementById("taskList");
+          const taskElement = document.createElement("li");
+          taskElement.className = "task-card";
+          taskElement.innerHTML = `
+        <div class="task-header">
+          <h4>${escapeHtml(task.name)}</h4>
+          <span class="task-status ${task.status}">${task.status}</span>
+        </div>
+        <div class="task-details">
+          <p><strong>Assigned To:</strong> ${escapeHtml(task.employee)}</p>
+          <p><strong>Technology:</strong> ${escapeHtml(task.tech)}</p>
+          <p><strong>Timeline:</strong> ${escapeHtml(task.time)}</p>
+          <p><strong>Description:</strong> ${escapeHtml(task.description)}</p>
+        </div>
+        <div class="task-actions">
+          <button class="btn btn-sm btn-delete" data-id="${task.id}">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+          <button class="btn btn-sm btn-edit" data-id="${task.id}">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+        </div>
+      `;
+          taskList.appendChild(taskElement);
+
+          // Add delete event
+          taskElement
+            .querySelector(".btn-delete")
+            .addEventListener("click", function () {
+              deleteTask(task.id);
+            });
+
+          // Add edit event
+          taskElement
+            .querySelector(".btn-edit")
+            .addEventListener("click", function () {
+              editTask(task.id);
+            });
+        }
+
+        // Load all existing tasks on page load
+        function loadAllTasks() {
+          const tasks = JSON.parse(localStorage.getItem("emsTasks")) || [];
+          const taskList = document.getElementById("taskList");
+          taskList.innerHTML = "";
+
+          if (tasks.length === 0) {
+            taskList.innerHTML =
+              '<li class="no-tasks">No tasks assigned yet</li>';
+            return;
+          }
+
+          tasks.forEach((task) => renderTask(task));
+          updateTaskStats();
+        }
+
+        // Delete task function
+        function deleteTask(id) {
+          if (!confirm("Are you sure you want to delete this task?")) return;
+
+          const tasks = JSON.parse(localStorage.getItem("emsTasks")) || [];
+          const filtered = tasks.filter((task) => task.id !== id);
+          localStorage.setItem("emsTasks", JSON.stringify(filtered));
+          loadAllTasks();
+          showToast("Task deleted successfully");
+        }
+
+        // Update task statistics
+        function updateTaskStats() {
+          const tasks = JSON.parse(localStorage.getItem("emsTasks")) || [];
+          document.getElementById("activeTasks").textContent = tasks.filter(
+            (t) => t.status === "active"
+          ).length;
+          document.getElementById("completedTasks").textContent = tasks.filter(
+            (t) => t.status === "completed"
+          ).length;
+          document.getElementById("failedTasks").textContent = tasks.filter(
+            (t) => t.status === "failed"
+          ).length;
+        }
+
+        // Helper function to show toast messages
+        function showToast(message) {
+          const toast = document.createElement("div");
+          toast.className = "toast-message";
+          toast.textContent = message;
+          document.body.appendChild(toast);
+
+          setTimeout(() => {
+            toast.classList.add("show");
+            setTimeout(() => {
+              toast.remove();
+            }, 3000);
+          }, 100);
+        }
+
+        // Initialize on page load
+        loadAllTasks();
+      });
+
+      // Helper function to escape HTML (reuse from existing code)
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Display Admin Information
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the current user from session
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+
+        if (currentUser && currentUser.role === "admin") {
+          // Display admin info
+          document.getElementById("adminName").textContent = currentUser.name;
+          document.getElementById("adminID").textContent =
+            currentUser.email.split("@")[0]; // Using email prefix as ID
+          document.getElementById("adminRole").textContent =
+            currentUser.role.charAt(0).toUpperCase() +
+            currentUser.role.slice(1);
+
+          // Update greeting
+          const greetingText = document.getElementById("greetingText");
+          if (greetingText) {
+            greetingText.textContent = `Welcome Admin, ${currentUser.name}`;
+          }
+        } else {
+          // Redirect if not admin
+          window.location.href = "login.html";
+        }
+      });
+
+      // Set admin photo if available (fallback to logo)
+      const adminPhoto = document.getElementById("adminPhoto");
+      if (adminPhoto && currentUser.photo) {
+        adminPhoto.src = currentUser.photo;
+      } else if (adminPhoto) {
+        adminPhoto.src = "images/default-admin.png"; // Add a default admin image
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize shared task storage if not exists
+        if (!localStorage.getItem("emsSharedTasks")) {
+          localStorage.setItem("emsSharedTasks", JSON.stringify([]));
+        }
+
+        // Enhanced task form submission
+        const taskForm = document.getElementById("taskForm");
+        taskForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Create task object
+          const newTask = {
+            id: Date.now(),
+            name: document.getElementById("taskName").value.trim(),
+            employee: document.getElementById("employeeName").value.trim(),
+            tech: document.getElementById("technology").value.trim(),
+            time: document.getElementById("timeline").value.trim(),
+            description: document.getElementById("description").value.trim(),
+            status: document.getElementById("status").value,
+            assignedBy: "Admin",
+            createdAt: new Date().toISOString(),
+          };
+
+          // Basic validation
+          if (!newTask.name || !newTask.employee) {
+            alert("Please fill required fields");
+            return;
+          }
+
+          // Save to both systems:
+          // 1. Original system (if exists)
+          if (typeof tasks !== "undefined" && typeof tasks.add === "function") {
+            tasks.add(newTask);
+          }
+
+          // 2. New shared storage
+          const sharedTasks =
+            JSON.parse(localStorage.getItem("emsSharedTasks")) || [];
+          sharedTasks.push(newTask);
+          localStorage.setItem("emsSharedTasks", JSON.stringify(sharedTasks));
+
+          // Display in admin dashboard
+          renderTask(newTask);
+          updateStats();
+          taskForm.reset();
+
+          alert("Task assigned successfully!"); // Simple feedback
+        });
+
+        // Simple task rendering
+        function renderTask(task) {
+          const taskList = document.getElementById("taskList");
+          const taskItem = document.createElement("li");
+          taskItem.className = "task-card";
+          taskItem.innerHTML = `
+            <h4>${task.name}</h4>
+            <p><strong>Assigned To:</strong> ${task.employee}</p>
+            <p><strong>Status:</strong> ${task.status}</p>
+            <button class="btn btn-delete" data-id="${task.id}">Delete</button>
+        `;
+          taskList.appendChild(taskItem);
+
+          // Add delete handler
+          taskItem
+            .querySelector(".btn-delete")
+            .addEventListener("click", function () {
+              deleteTask(task.id);
+            });
+        }
+
+        // Delete task from both systems
+        function deleteTask(id) {
+          if (!confirm("Delete this task?")) return;
+
+          // 1. Original system
+          if (
+            typeof tasks !== "undefined" &&
+            typeof tasks.remove === "function"
+          ) {
+            tasks.remove(id);
+          }
+
+          // 2. Shared storage
+          const sharedTasks =
+            JSON.parse(localStorage.getItem("emsSharedTasks")) || [];
+          const updatedTasks = sharedTasks.filter((task) => task.id !== id);
+          localStorage.setItem("emsSharedTasks", JSON.stringify(updatedTasks));
+
+          // Refresh display
+          document.getElementById("taskList").innerHTML = "";
+          sharedTasks.forEach(renderTask);
+          updateStats();
+        }
+
+        // Update statistics
+        function updateStats() {
+          const sharedTasks =
+            JSON.parse(localStorage.getItem("emsSharedTasks")) || [];
+          document.getElementById("activeTasks").textContent =
+            sharedTasks.filter((t) => t.status === "active").length;
+          document.getElementById("completedTasks").textContent =
+            sharedTasks.filter((t) => t.status === "completed").length;
+          document.getElementById("failedTasks").textContent =
+            sharedTasks.filter((t) => t.status === "failed").length;
+        }
+
+        // Load existing tasks on page load
+        const sharedTasks =
+          JSON.parse(localStorage.getItem("emsSharedTasks")) || [];
+        sharedTasks.forEach(renderTask);
+        updateStats();
+      });
+    </script>
+
+    <script src="js/animations.js"></script>
+    <script src="js/theme.js"></script>
+  </body>
+</html>
