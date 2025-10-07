@@ -35,7 +35,7 @@ EMS Pro is a responsive, client-side web-based Employee Management System design
 │ ├── dashboard.js # Role-specific dashboard logic
 │ ├── task.js # Task assignment and update logic
 │ ├── animations.js # manage the animation in pages of html
-
+```
 ---
 
 ## ✨ Key Features
