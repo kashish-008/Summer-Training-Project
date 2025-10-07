@@ -92,7 +92,4 @@ EMS Pro is a responsive, client-side web-based Employee Management System design
 **College:** Chandigarh Group of College, Landran, Mohali
 
 ---
-<<<<<<< HEAD
-=======
 
->>>>>>> c92ae69458f4cbf4b749c703861d5de00b2444df
