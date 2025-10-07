@@ -10,7 +10,7 @@ EMS Pro is a responsive, client-side web-based Employee Management System design
 ---
 
 ## 📂 Project Structure
-
+```bash
 /EMS/
 │
 ├── index.html # Home page
