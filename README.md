@@ -4,7 +4,7 @@ EMS Pro is a responsive, client-side web-based Employee Management System design
 
 ## 🔗 Live Demo
 
->  GitHub Pages or live URL here if hosted 
+>  GitHub Pages or live URL 
 > https://kashish-008.github.io/Summer-Training-Project/
 
 ---
