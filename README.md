@@ -40,15 +40,15 @@ EMS Pro is a responsive, client-side web-based Employee Management System design
 
 ## ✨ Key Features
 
-- 🔐 Role-based login (Admin, Manager, Employee)
-- 🧾 Task assignment and tracking by Admin
-- 📊 Manager dashboard to view team progress
-- ✅ Employees update their task statuses
-- 🌙 Dark mode support (toggle saved in LocalStorage)
-- 📦 LocalStorage used as client-side database (JSON format)
-- 🎨 CSS animations and hover effects
-- 📱 Fully responsive and mobile-friendly layout
-- 📬 Contact form whose data is viewable by Admin
+-  Role-based login (Admin, Manager, Employee)
+-  Task assignment and tracking by Admin
+-  Manager dashboard to view team progress
+-  Employees update their task statuses
+-  Dark mode support (toggle saved in LocalStorage)
+-  LocalStorage used as client-side database (JSON format)
+-  CSS animations and hover effects
+-  Fully responsive and mobile-friendly layout
+-  Contact form whose data is viewable by Admin
 
 ---
 
